@@ -1,0 +1,14 @@
+python-dotenv
+openai
+moviepy
+google-api-python-client
+google-auth-oauthlib
+fastapi
+python-multipart
+uvicorn
+aiohttp
+requests
+facebook-sdk
+python-instagram
+pydantic
+tiktok-api
