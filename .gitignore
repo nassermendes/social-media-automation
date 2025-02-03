@@ -2,6 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+
+# Virtual Environment
+venv/
+env/
+ENV/
 
 # C extensions
 *.so
@@ -157,5 +163,38 @@ cython_debug/
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+logs/
+
+# Local development
+token*.json
+token*.pickle
+*.db
+*.sqlite3
+
+# Testing
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Media files
+*.mp4
+*.mov
+*.avi
+*.mkv
+uploads/
+temp/
+
+# Platform specific
+tiktok-developers-site-verification.txt
+tiktokSRhIBscV5SlTsNwYMefTitgGBCs9EtOg.txt
+
+# Misc
+.DS_Store
+Thumbs.db
 node_modules

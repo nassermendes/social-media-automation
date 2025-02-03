@@ -14,11 +14,33 @@ class Settings(BaseSettings):
     # OpenAI
     OPENAI_API_KEY: str
     
-    # Social Media Credentials
+    # Google Cloud
+    GOOGLE_CLOUD_PROJECT: str
+    GCP_BUCKET_NAME: str
+    GOOGLE_APPLICATION_CREDENTIALS: str
+    
+    # Instagram API App Credentials
+    INSTAGRAM_APP_ID: str
+    INSTAGRAM_APP_SECRET: str
+    INSTAGRAM_CHARITY_USER_ID: str
+    
+    # YouTube API Credentials
     YOUTUBE_CLIENT_ID: str
     YOUTUBE_CLIENT_SECRET: str
-    INSTAGRAM_ACCESS_TOKEN: str
-    TIKTOK_ACCESS_TOKEN: str
+    
+    # TikTok API App Credentials
+    TIKTOK_APP_KEY: str
+    TIKTOK_APP_SECRET: str
+    
+    # TikTok Personal Account
+    TIKTOK_PERSONAL_CLIENT_KEY: str
+    TIKTOK_PERSONAL_CLIENT_SECRET: str
+    TIKTOK_PERSONAL_ACCESS_TOKEN: str
+    
+    # TikTok Charity Account
+    TIKTOK_CHARITY_CLIENT_KEY: str
+    TIKTOK_CHARITY_CLIENT_SECRET: str
+    TIKTOK_CHARITY_ACCESS_TOKEN: str
     
     class Config:
         env_file = ".env"
