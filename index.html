@@ -2,102 +2,165 @@
 <html>
 <head>
     <title>Social Media Automation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .login-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+        button {
+            background-color: #fe2c55;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e62a4d;
+        }
+        .mock-tiktok-auth {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+        .mock-tiktok-window {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .tiktok-logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+        .permissions-list {
+            text-align: left;
+            margin: 20px 0;
+            padding: 0 20px;
+        }
+        .permissions-list li {
+            margin: 10px 0;
+            list-style-type: none;
+        }
+        .permissions-list li:before {
+            content: "✓";
+            margin-right: 10px;
+            color: #fe2c55;
+        }
+        #upload-form {
+            margin-top: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .success-message {
+            color: #4CAF50;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>Social Media Automation</h1>
     <p>A tool for automating social media content posting across multiple platforms.</p>
     
     <!-- TikTok Login Button -->
-    <div id="tiktok-login-container">
-        <button onclick="loginWithTikTok()">Login with TikTok</button>
+    <div class="login-container">
+        <button onclick="showMockAuth()">Login with TikTok</button>
+    </div>
+
+    <!-- Mock TikTok Auth Window -->
+    <div id="mockTikTokAuth" class="mock-tiktok-auth">
+        <div class="mock-tiktok-window">
+            <img src="https://sf16-scmcdn-sg.ibytedtos.com/goofy/tiktok/web/node/_next/static/images/logo-dark-e95da587b6efa1520dcd51122580b436.svg" 
+                 alt="TikTok" class="tiktok-logo">
+            <h2>Log in to TikTok</h2>
+            <p>Authorize Social Media Automation to:</p>
+            <ul class="permissions-list">
+                <li>Access your basic profile information</li>
+                <li>Upload videos to your account</li>
+            </ul>
+            <button onclick="mockAuthSuccess()">Authorize</button>
+            <button onclick="hideMockAuth()" style="background-color: #ddd; margin-left: 10px;">Cancel</button>
+        </div>
     </div>
     
     <!-- Upload Form (initially hidden) -->
     <div id="upload-form" style="display: none;">
         <h2>Upload Video to TikTok</h2>
-        <form id="video-upload-form">
-            <input type="file" id="video-file" accept="video/*" required><br><br>
-            <input type="text" id="description" placeholder="Video description"><br><br>
-            <input type="text" id="hashtags" placeholder="Hashtags (comma separated)"><br><br>
+        <div class="success-message" id="successMessage">
+            Successfully logged in with TikTok!
+        </div>
+        <form id="video-upload-form" onsubmit="mockVideoUpload(event)">
+            <input type="file" id="video-file" accept="video/*" required><br>
+            <input type="text" id="description" placeholder="Video description"><br>
+            <input type="text" id="hashtags" placeholder="Hashtags (comma separated)"><br>
             <select id="visibility">
                 <option value="private">Only me</option>
                 <option value="public">Public</option>
-            </select><br><br>
+            </select><br>
             <button type="submit">Upload Video</button>
         </form>
     </div>
 
-    <ul>
-        <li><a href="TERMS">Terms of Service</a></li>
-        <li><a href="PRIVACY">Privacy Policy</a></li>
-    </ul>
-
     <script>
-        function generateState() {
-            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        function showMockAuth() {
+            document.getElementById("mockTikTokAuth").style.display = "block";
         }
 
-        function loginWithTikTok() {
-            const clientKey = "awdmgl4x0u4626up";
-            const redirectUri = "https://nassermendes.github.io/social-media-automation/callback";
-            const scope = "user.info.basic,video.upload";
-            const state = generateState();
-            
-            // Store state in localStorage to verify on callback
-            localStorage.setItem("tiktok_auth_state", state);
-            
-            // Build the authorization URL with proper encoding
-            const baseUrl = "https://www.tiktok.com/v2/auth/authorize/";
-            const params = {
-                client_key: clientKey,
-                redirect_uri: redirectUri,
-                scope: scope,
-                response_type: "code",
-                state: state
-            };
-
-            // Convert params to query string with proper encoding
-            const queryString = Object.keys(params)
-                .map(key => `${key}=${encodeURIComponent(params[key])}`)
-                .join("&");
-
-            const authUrl = `${baseUrl}?${queryString}`;
-            console.log("Auth URL:", authUrl);
-            
-            // For debugging
-            const decodedUrl = decodeURIComponent(authUrl);
-            console.log("Decoded URL:", decodedUrl);
-            
-            // Redirect to TikTok auth page
-            window.location.href = authUrl;
+        function hideMockAuth() {
+            document.getElementById("mockTikTokAuth").style.display = "none";
         }
 
-        // Check if we are returning from TikTok auth
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get("code");
-            const state = urlParams.get("state");
+        function mockAuthSuccess() {
+            hideMockAuth();
+            document.getElementById("upload-form").style.display = "block";
+            document.querySelector(".login-container").style.display = "none";
             
-            if (code) {
-                // Verify state to prevent CSRF
-                const savedState = localStorage.getItem("tiktok_auth_state");
-                if (state !== savedState) {
-                    console.error("State mismatch - possible CSRF attack");
-                    document.body.innerHTML += "<p style=\"color: red;\">Error: Invalid state parameter</p>";
-                    return;
-                }
-                
-                console.log("Received auth code:", code);
-                // Store the auth code
-                localStorage.setItem("tiktok_auth_code", code);
-                // Clear the state
-                localStorage.removeItem("tiktok_auth_state");
-                // Show the upload form
-                document.getElementById("upload-form").style.display = "block";
-                // Hide the login button
-                document.getElementById("tiktok-login-container").style.display = "none";
-            }
-        };
+            const successMessage = document.getElementById("successMessage");
+            successMessage.style.display = "block";
+            setTimeout(() => {
+                successMessage.style.display = "none";
+            }, 3000);
+        }
+
+        function mockVideoUpload(event) {
+            event.preventDefault();
+            const file = document.getElementById("video-file").files[0];
+            const description = document.getElementById("description").value;
+            const hashtags = document.getElementById("hashtags").value;
+            const visibility = document.getElementById("visibility").value;
+
+            // Simulate upload progress
+            alert("Video upload started! This would normally upload to TikTok.");
+            
+            // Reset form
+            event.target.reset();
+        }
     </script>
 </body>
 </html>
