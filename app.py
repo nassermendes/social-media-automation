@@ -2,12 +2,10 @@ from fastapi import FastAPI, File, UploadFile, Request
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.middleware.cors import CORSMiddleware
 import asyncio
 import json
 import random
 from typing import Dict
-from pathlib import Path
 import logging
 
 # Configure logging
@@ -15,15 +13,6 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
-
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
