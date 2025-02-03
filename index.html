@@ -245,21 +245,13 @@
     </style>
 </head>
 <body>
-    <canvas id="bg"></canvas>
-    
     <div class="container">
         <h1 class="main-title">The Many Lives Of The Real Mendes</h1>
         
         <!-- Dragon ornaments -->
-        <img src="images/dragon-gold.png" class="dragon-ornament dragon-top-right" alt="">
-        <img src="images/dragon-gold.png" class="dragon-ornament dragon-bottom-left" alt="">
+        <img src="images/dragon-gold.svg" class="dragon-ornament dragon-top-right" alt="Golden dragon ornament">
+        <img src="images/dragon-gold.svg" class="dragon-ornament dragon-bottom-left" alt="Golden dragon ornament">
         
-        <!-- Curved decorative lines -->
-        <svg class="curved-line" viewBox="0 0 1000 1000">
-            <path d="M100,100 Q500,200 900,100" />
-            <path d="M100,900 Q500,800 900,900" />
-        </svg>
-
         <div class="upload-card">
             <div class="upload-zone" onclick="document.getElementById('video-file').click()">
                 <i class="fas fa-cloud-upload-alt upload-icon"></i>
@@ -360,9 +352,6 @@
         </div>
     </div>
 
-    <script type="module" src="js/particles.js"></script>
-    <script type="module" src="js/animations.js"></script>
-    
     <script>
         function updateFileName() {
             const fileInput = document.getElementById('video-file');

@@ -13,16 +13,22 @@ body {
     font-family: 'Cormorant Garamond', serif;
     color: var(--gold);
     margin: 0;
+    padding: 20px;
     min-height: 100vh;
-    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
 }
 
 .main-title {
     font-family: 'Cinzel', serif;
-    font-size: 4rem;
+    font-size: 3.5rem;
     color: var(--gold);
     text-align: center;
-    margin: 2rem 0;
+    margin: 20px 0 40px;
     background: linear-gradient(45deg, var(--gold-dark), var(--gold), var(--gold-light));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -65,20 +71,21 @@ body {
 
 .dragon-ornament {
     position: absolute;
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 180px;
+    z-index: 1;
     pointer-events: none;
 }
 
 .dragon-top-right {
-    top: -20px;
-    right: -20px;
+    top: -60px;
+    right: -60px;
     transform: rotate(45deg);
 }
 
 .dragon-bottom-left {
-    bottom: -20px;
-    left: -20px;
+    bottom: -60px;
+    left: -60px;
     transform: rotate(225deg);
 }
 
@@ -95,20 +102,18 @@ body {
 
 .platform-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
-    position: relative;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
 }
 
 .platform-card {
     background: rgba(17, 17, 17, 0.8);
     border: 1px solid rgba(212, 175, 55, 0.2);
     border-radius: 20px;
-    padding: 2rem;
+    padding: 25px;
     position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
+    margin-bottom: 20px;
 }
 
 .platform-card::before {
@@ -156,6 +161,15 @@ body {
 
 .upload-zone:hover::before {
     opacity: 1;
+}
+
+.upload-card {
+    background-color: var(--dark-gray);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px 0;
+    position: relative;
+    border: 1px solid rgba(212, 175, 55, 0.1);
 }
 
 button {
