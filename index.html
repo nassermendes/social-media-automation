@@ -2,257 +2,250 @@
 <html>
 <head>
     <title>Social Media Automation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #D4AF37;
-            --primary-dark: #B4941E;
-            --secondary-color: #1A1A1A;
-            --success-color: #4CAF50;
-            --error-color: #DC2626;
-            --warning-color: #D4AF37;
-            --background-color: #121212;
-            --card-background: #1A1A1A;
+            --gold: #D4AF37;
+            --gold-light: #FFD700;
+            --gold-dark: #B4941E;
+            --black: #000000;
+            --dark-gray: #111111;
             --text-primary: #FFFFFF;
-            --text-secondary: #B8B8B8;
-            --gold-gradient: linear-gradient(135deg, #D4AF37, #FFD700, #D4AF37);
+            --text-secondary: rgba(255, 255, 255, 0.7);
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
-            background: var(--background-color);
-            background-image: 
-                radial-gradient(circle at 100% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 0% 100%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
-            min-height: 100vh;
+            background-color: var(--black);
             color: var(--text-primary);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 100%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 40%, transparent 50%);
+            transform: rotate(-12deg);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
             max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .header {
             text-align: center;
             margin-bottom: 60px;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, var(--gold), transparent);
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.1;
         }
 
         .header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5em;
+            font-size: 3em;
             margin-bottom: 10px;
-            background: var(--gold-gradient);
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .header p {
-            font-size: 1.2em;
-            color: var(--text-secondary);
-            font-weight: 300;
-            letter-spacing: 1px;
+            position: relative;
         }
 
         .upload-card {
-            background: var(--card-background);
-            border-radius: 20px;
+            background-color: var(--dark-gray);
+            border-radius: 15px;
             padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(212, 175, 55, 0.1);
             margin-bottom: 40px;
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            overflow: hidden;
+        }
+
+        .upload-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1));
+            transform: rotate(-45deg);
         }
 
         .upload-zone {
-            border: 2px dashed var(--primary-color);
-            border-radius: 15px;
+            border: 2px dashed var(--gold);
+            border-radius: 12px;
             padding: 40px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .upload-zone:hover {
+            border-color: var(--gold-light);
             background: rgba(212, 175, 55, 0.05);
-            border-color: var(--primary-color);
-        }
-
-        .upload-icon {
-            font-size: 48px;
-            color: var(--primary-color);
-            margin-bottom: 15px;
         }
 
         .platform-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
-            margin-top: 40px;
         }
 
         .platform-card {
-            background: var(--card-background);
-            border-radius: 15px;
+            background-color: var(--dark-gray);
+            border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
             border: 1px solid rgba(212, 175, 55, 0.1);
-            transition: all 0.3s ease;
         }
 
-        .platform-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(212, 175, 55, 0.3);
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1));
+            transform: translate(50%, -50%);
+            border-radius: 0 0 0 100%;
         }
 
         .platform-header {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
+            position: relative;
         }
 
         .platform-icon {
+            color: var(--gold);
             font-size: 24px;
             margin-right: 15px;
-            color: var(--primary-color);
-        }
-
-        .platform-header h3 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 600;
-            margin: 0;
-            color: var(--text-primary);
         }
 
         .progress-bar {
-            height: 8px;
+            height: 6px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+            border-radius: 3px;
             overflow: hidden;
-            margin: 15px 0;
+            position: relative;
         }
 
         .progress-fill {
             height: 100%;
-            width: 0%;
-            border-radius: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 3px;
             transition: width 0.3s ease;
         }
 
-        .progress-fill.uploading {
-            background: var(--gold-gradient);
-        }
-
-        .progress-fill.success {
-            background: linear-gradient(90deg, #388E3C, #4CAF50);
-        }
-
-        .progress-fill.error {
-            background: linear-gradient(90deg, #C62828, #DC2626);
-        }
-
-        .status-message {
-            font-size: 0.9em;
-            color: var(--text-secondary);
-            margin-top: 10px;
-        }
-
-        .platform-link {
-            display: inline-block;
-            margin-top: 10px;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .platform-link:hover {
-            color: var(--primary-dark);
-        }
-
         button {
-            background: var(--gold-gradient);
-            color: var(--secondary-color);
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            color: var(--black);
             border: none;
             padding: 15px 30px;
             border-radius: 8px;
-            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
             width: 100%;
-            margin-top: 25px;
+            margin-top: 30px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
         }
 
-        button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        .platform-link {
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .platform-link:hover {
+            color: var(--gold-light);
+        }
+
+        .status-message {
+            color: var(--text-secondary);
+            margin-top: 15px;
+            font-size: 0.9em;
         }
 
         #file-name {
+            color: var(--text-secondary);
             margin-top: 15px;
             font-size: 0.9em;
-            color: var(--text-secondary);
         }
 
-        .platform-status.success {
-            border-left: 4px solid var(--success-color);
-        }
-
-        .platform-status.error {
-            border-left: 4px solid var(--error-color);
-        }
-
-        .platform-status.uploading {
-            border-left: 4px solid var(--warning-color);
+        .upload-icon {
+            color: var(--gold);
+            font-size: 48px;
+            margin-bottom: 20px;
         }
 
         @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
-        .uploading .platform-icon {
-            animation: pulse 2s infinite;
-        }
-
-        .upload-zone h3 {
-            font-family: 'Playfair Display', serif;
-            color: var(--primary-color);
-            margin: 15px 0 5px;
-        }
-
-        .upload-zone p {
-            color: var(--text-secondary);
-            margin: 0;
-        }
-
-        /* Platform-specific styles */
-        #youtube-personal-status .platform-icon,
-        #youtube-charity-status .platform-icon {
-            color: #FF0000;
-        }
-
-        #instagram-personal-status .platform-icon,
-        #instagram-charity-status .platform-icon {
-            color: #E4405F;
-        }
-
-        #tiktok-personal-status .platform-icon,
-        #tiktok-charity-status .platform-icon {
-            color: #FFFFFF;
+        .platform-card.uploading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: shimmer 2s infinite;
         }
     </style>
 </head>
@@ -260,7 +253,7 @@
     <div class="container">
         <div class="header">
             <h1>Social Media Automation</h1>
-            <p>Elegantly share your content across platforms</p>
+            <p>Streamline Your Content Distribution</p>
         </div>
 
         <div class="upload-card">
@@ -277,7 +270,7 @@
         </div>
 
         <div class="platform-grid" id="progressSection" style="display: none">
-            <!-- Platform cards remain the same as before -->
+            <!-- Platform cards remain the same -->
             <!-- YouTube Personal -->
             <div class="platform-card" id="youtube-personal-status">
                 <div class="platform-header">
