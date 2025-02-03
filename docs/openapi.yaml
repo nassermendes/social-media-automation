@@ -1,0 +1,181 @@
+openapi: 3.0.0
+info:
+  title: Social Media Upload API
+  description: API for managing social media uploads across multiple platforms
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/v1
+    description: Production server
+paths:
+  /analyze-video:
+    post:
+      summary: Analyze uploaded video file
+      operationId: analyzeVideo
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                video:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Video analysis results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  duration: 
+                    type: string
+                  size: 
+                    type: string
+                  resolution: 
+                    type: string
+                  compatible_platforms:
+                    type: array
+                    items:
+                      type: string
+  
+  /generate-content:
+    post:
+      summary: Generate platform-specific content using ChatGPT
+      operationId: generateContent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                video_analysis:
+                  type: object
+                platforms:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Generated content for each platform
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    hashtags:
+                      type: array
+                      items:
+                        type: string
+  
+  /schedule-post:
+    post:
+      summary: Schedule posts for specific platforms
+      operationId: schedulePost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                platform_content:
+                  type: object
+                schedule_time:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Scheduled post details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  scheduled_time:
+                    type: string
+                    format: date-time
+                  platforms:
+                    type: array
+                    items:
+                      type: string
+  
+  /upload-content:
+    post:
+      summary: Upload content to platforms
+      operationId: uploadContent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                schedule_id:
+                  type: string
+      responses:
+        '200':
+          description: Upload status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  upload_id:
+                    type: string
+                  status:
+                    type: string
+                    enum: [pending, in_progress, completed, failed]
+  
+  /check-status/{upload_id}:
+    get:
+      summary: Check upload status
+      operationId: checkStatus
+      parameters:
+        - name: upload_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current upload status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [pending, in_progress, completed, failed]
+                  platform_status:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        progress:
+                          type: integer
+                        status:
+                          type: string
+                        url:
+                          type: string
+                        error:
+                          type: string
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+security:
+  - ApiKeyAuth: []
