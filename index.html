@@ -36,19 +36,43 @@
 
     <script>
         // Initialize TikTok SDK
-        const CLIENT_KEY = "awdmgl4x0u4626up";
+        const CLIENT_KEY = 'awdmgl4x0u4626up';
         
         window.onload = function() {
+            console.log('Window loaded');
+            
+            // Check if TikTok SDK is loaded
+            if (typeof TikTokAuth === 'undefined') {
+                console.error('TikTok SDK not loaded!');
+                document.body.innerHTML += '<p style="color: red;">Error: TikTok SDK failed to load</p>';
+                return;
+            }
+            
+            console.log('TikTok SDK loaded');
+            
             // Initialize TikTok Login Kit
-            TikTokAuth.init({
-                client_key: CLIENT_KEY,
-                redirect_uri: "https://nassermendes.github.io/social-media-automation/callback",
-                scope: "user.info.basic,video.upload"
-            });
+            try {
+                TikTokAuth.init({
+                    client_key: CLIENT_KEY,
+                    redirect_uri: 'https://nassermendes.github.io/social-media-automation/callback',
+                    scope: 'user.info.basic,video.upload'
+                });
+                console.log('TikTok SDK initialized');
+            } catch (error) {
+                console.error('Error initializing TikTok SDK:', error);
+                document.body.innerHTML += '<p style="color: red;">Error: ' + error.message + '</p>';
+            }
             
             // Add click handler for login button
-            document.getElementById("tiktok-login-btn").addEventListener("click", function() {
-                TikTokAuth.login();
+            document.getElementById('tiktok-login-btn').addEventListener('click', function() {
+                console.log('Login button clicked');
+                try {
+                    TikTokAuth.login();
+                    console.log('Login function called');
+                } catch (error) {
+                    console.error('Error during login:', error);
+                    document.body.innerHTML += '<p style="color: red;">Login error: ' + error.message + '</p>';
+                }
             });
         };
     </script>
