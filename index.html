@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Social Media Automation</title>
@@ -247,9 +247,21 @@
             background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
             animation: shimmer 2s infinite;
         }
+
+        #bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+    <canvas id="bg"></canvas>
+    
     <div class="container">
         <div class="header">
             <h1>Social Media Automation</h1>
@@ -345,6 +357,9 @@
         </div>
     </div>
 
+    <script type="module" src="js/particles.js"></script>
+    <script type="module" src="js/animations.js"></script>
+    
     <script>
         // JavaScript remains the same as before
         function updateFileName() {
