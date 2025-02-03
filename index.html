@@ -11,7 +11,19 @@
     
     <!-- TikTok Login Button -->
     <div class="login-container">
-        <button id="tiktok-login-btn">Login with TikTok</button>
+        <script>
+            function onTikTokLogin(response) {
+                console.log('TikTok login response:', response);
+                if (response.code) {
+                    // Store the auth code
+                    localStorage.setItem('tiktok_auth_code', response.code);
+                    console.log('Auth code stored:', response.code);
+                    // Show upload form
+                    document.getElementById('upload-form').style.display = 'block';
+                }
+            }
+        </script>
+        <div id="tiktok-login-button"></div>
     </div>
     
     <!-- Upload Form (initially hidden) -->
@@ -35,45 +47,26 @@
     </ul>
 
     <script>
-        // Initialize TikTok SDK
-        const CLIENT_KEY = 'awdmgl4x0u4626up';
-        
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://www.tiktok.com/auth/embed.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        })(document, 'script', 'tiktok-auth');
+    </script>
+
+    <script>
         window.onload = function() {
             console.log('Window loaded');
-            
-            // Check if TikTok SDK is loaded
-            if (typeof TikTokAuth === 'undefined') {
-                console.error('TikTok SDK not loaded!');
-                document.body.innerHTML += '<p style="color: red;">Error: TikTok SDK failed to load</p>';
-                return;
-            }
-            
-            console.log('TikTok SDK loaded');
-            
-            // Initialize TikTok Login Kit
-            try {
-                const auth = new TikTokAuth({
-                    clientKey: CLIENT_KEY,
-                    redirectUrl: 'https://nassermendes.github.io/social-media-automation/callback',
-                    scope: ['user.info.basic', 'video.upload']
-                });
-                console.log('TikTok SDK initialized');
-
-                // Add click handler for login button
-                document.getElementById('tiktok-login-btn').addEventListener('click', function() {
-                    console.log('Login button clicked');
-                    try {
-                        auth.authorize();
-                        console.log('Login function called');
-                    } catch (error) {
-                        console.error('Error during login:', error);
-                        document.body.innerHTML += '<p style="color: red;">Login error: ' + error.message + '</p>';
-                    }
-                });
-            } catch (error) {
-                console.error('Error initializing TikTok SDK:', error);
-                document.body.innerHTML += '<p style="color: red;">Error: ' + error.message + '</p>';
-            }
+            window.TikTokAuthObject = {
+                client_key: 'awdmgl4x0u4626up',
+                redirect_uri: 'https://nassermendes.github.io/social-media-automation/callback',
+                scope: 'user.info.basic,video.upload',
+                response_type: 'code',
+                state: 'state'
+            };
         };
     </script>
 </body>
