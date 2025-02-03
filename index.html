@@ -3,7 +3,7 @@
 <head>
     <title>Social Media Automation</title>
     <!-- TikTok SDK -->
-    <script src="https://sf-tk-sg.ibytedtos.com/obj/static-web/tiktok/tiktok-auth.js"></script>
+    <script src="https://unpkg.com/@tiktok/tiktok-auth"></script>
 </head>
 <body>
     <h1>Social Media Automation</h1>
@@ -52,28 +52,28 @@
             
             // Initialize TikTok Login Kit
             try {
-                TikTokAuth.init({
-                    client_key: CLIENT_KEY,
-                    redirect_uri: 'https://nassermendes.github.io/social-media-automation/callback',
-                    scope: 'user.info.basic,video.upload'
+                const auth = new TikTokAuth({
+                    clientKey: CLIENT_KEY,
+                    redirectUrl: 'https://nassermendes.github.io/social-media-automation/callback',
+                    scope: ['user.info.basic', 'video.upload']
                 });
                 console.log('TikTok SDK initialized');
+
+                // Add click handler for login button
+                document.getElementById('tiktok-login-btn').addEventListener('click', function() {
+                    console.log('Login button clicked');
+                    try {
+                        auth.authorize();
+                        console.log('Login function called');
+                    } catch (error) {
+                        console.error('Error during login:', error);
+                        document.body.innerHTML += '<p style="color: red;">Login error: ' + error.message + '</p>';
+                    }
+                });
             } catch (error) {
                 console.error('Error initializing TikTok SDK:', error);
                 document.body.innerHTML += '<p style="color: red;">Error: ' + error.message + '</p>';
             }
-            
-            // Add click handler for login button
-            document.getElementById('tiktok-login-btn').addEventListener('click', function() {
-                console.log('Login button clicked');
-                try {
-                    TikTokAuth.login();
-                    console.log('Login function called');
-                } catch (error) {
-                    console.error('Error during login:', error);
-                    document.body.innerHTML += '<p style="color: red;">Login error: ' + error.message + '</p>';
-                }
-            });
         };
     </script>
 </body>
