@@ -1,6 +1,6 @@
 # Social Media Automation Tool
 
-A powerful automation tool for uploading and managing videos across multiple social media platforms (YouTube, Instagram, and TikTok) with ChatGPT integration for content optimization.
+A powerful automation tool for managing and uploading videos across multiple social media platforms (YouTube, Instagram, and TikTok).
 
 ## Features
 
@@ -8,89 +8,78 @@ A powerful automation tool for uploading and managing videos across multiple soc
   - YouTube Shorts
   - Instagram Reels
   - TikTok Videos
+  
 - **Multiple Account Management**
   - Support for both personal and charity accounts
   - Secure credential management
+  
 - **Smart Video Processing**
-  - Automatic format adaptation for each platform
-  - Aspect ratio optimization (9:16 for vertical content)
-  - Quality and size optimization
+  - Automatic video optimization for each platform
+  - Aspect ratio adjustment (9:16 for vertical content)
+  - Quality and file size optimization
+  - Duration limits handling
+  
 - **ChatGPT Integration**
   - Content optimization
   - Caption generation
   - Hashtag recommendations
-- **Robust Error Handling**
-  - Automatic retries for failed uploads
-  - Detailed error reporting
+  
+- **Advanced Features**
   - Progress tracking
-
-## Project Structure
-
-```
-social-media-automation/
-├── api/                    # Backend API
-│   └── src/
-│       ├── services/      # Platform-specific services
-│       │   └── platforms/
-│       │       ├── youtube.py    # YouTube integration
-│       │       ├── instagram.py  # Instagram integration
-│       │       └── tiktok.py     # TikTok integration
-│       ├── routes/        # API endpoints
-│       └── models.py      # Data models
-├── static/                # Static assets
-├── templates/             # HTML templates
-├── app.py                # Main application file
-└── requirements.txt      # Python dependencies
-```
+  - Retry logic for reliability
+  - Detailed error handling
+  - Temporary file cleanup
+  - Comprehensive logging
 
 ## Flow
 
 1. **Video Upload**
-   - User submits video through web interface
-   - System validates file format and size
-   - Video is temporarily stored for processing
+   - User selects video file
+   - System validates format and size
+   - Video is processed for platform requirements
 
 2. **Video Processing**
-   - Video is analyzed for dimensions and duration
-   - Format is optimized for each target platform
-   - Temporary versions are created if needed
+   - Aspect ratio adjustment (9:16)
+   - Duration check and trimming
+   - Quality optimization
+   - File size optimization
 
 3. **Content Generation**
-   - ChatGPT analyzes video content
-   - Generates optimized titles and descriptions
-   - Suggests relevant hashtags
+   - ChatGPT generates optimized captions
+   - Platform-specific hashtags added
+   - Content compliance check
 
 4. **Platform Upload**
-   - Videos are uploaded to selected platforms
-   - Platform-specific requirements are handled
-   - Progress is tracked and reported
-   - Retry logic handles temporary failures
+   - YouTube: Upload as Shorts with proper categorization
+   - Instagram: Upload as Reels with location/mentions
+   - TikTok: Upload with proper settings and sharing options
 
 5. **Status Tracking**
-   - Upload status is monitored
-   - Success/failure notifications
-   - Detailed error reporting if needed
+   - Upload progress monitoring
+   - Processing status updates
+   - Error handling and retries
+   - Success confirmation
 
 ## Setup
 
-1. Clone the repository
+1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/social-media-automation.git
 cd social-media-automation
 ```
 
-2. Install dependencies
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Set up environment variables
+3. Set up environment variables:
 ```bash
 cp .env.example .env
 # Edit .env with your API keys and credentials
 ```
 
-4. Run the application
+4. Run the application:
 ```bash
 python app.py
 ```
@@ -100,33 +89,57 @@ python app.py
 Required environment variables in `.env`:
 
 ```
-# General
-OPENAI_API_KEY=your_openai_api_key
+# YouTube Credentials
+YOUTUBE_PERSONAL_CLIENT_ID=
+YOUTUBE_PERSONAL_CLIENT_SECRET=
+YOUTUBE_CHARITY_CLIENT_ID=
+YOUTUBE_CHARITY_CLIENT_SECRET=
 
-# YouTube
-YOUTUBE_CLIENT_ID=your_client_id
-YOUTUBE_CLIENT_SECRET=your_client_secret
-YOUTUBE_PERSONAL_REFRESH_TOKEN=your_personal_refresh_token
-YOUTUBE_CHARITY_REFRESH_TOKEN=your_charity_refresh_token
+# Instagram Credentials
+INSTAGRAM_PERSONAL_ACCESS_TOKEN=
+INSTAGRAM_PERSONAL_USER_ID=
+INSTAGRAM_CHARITY_ACCESS_TOKEN=
+INSTAGRAM_CHARITY_USER_ID=
 
-# Instagram
-INSTAGRAM_PERSONAL_ACCESS_TOKEN=your_personal_access_token
-INSTAGRAM_PERSONAL_USER_ID=your_personal_user_id
-INSTAGRAM_CHARITY_ACCESS_TOKEN=your_charity_access_token
-INSTAGRAM_CHARITY_USER_ID=your_charity_user_id
+# TikTok Credentials
+TIKTOK_APP_KEY=
+TIKTOK_APP_SECRET=
+TIKTOK_PERSONAL_CLIENT_KEY=
+TIKTOK_PERSONAL_CLIENT_SECRET=
+TIKTOK_PERSONAL_ACCESS_TOKEN=
+TIKTOK_CHARITY_CLIENT_KEY=
+TIKTOK_CHARITY_CLIENT_SECRET=
+TIKTOK_CHARITY_ACCESS_TOKEN=
 
-# TikTok
-TIKTOK_APP_KEY=your_app_key
-TIKTOK_APP_SECRET=your_app_secret
-TIKTOK_PERSONAL_ACCESS_TOKEN=your_personal_access_token
-TIKTOK_CHARITY_ACCESS_TOKEN=your_charity_access_token
+# OpenAI (ChatGPT) Credentials
+OPENAI_API_KEY=
+```
+
+## Project Structure
+
+```
+social-media-automation/
+├── api/
+│   └── src/
+│       ├── services/
+│       │   └── platforms/
+│       │       ├── youtube.py
+│       │       ├── instagram.py
+│       │       └── tiktok.py
+│       ├── routes/
+│       └── config.py
+├── static/
+├── templates/
+├── app.py
+├── requirements.txt
+└── .env
 ```
 
 ## Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
