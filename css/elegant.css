@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600&display=swap');
+
+:root {
+    --gold: #D4AF37;
+    --gold-light: #FFD700;
+    --gold-dark: #B4941E;
+    --black: #0A0A0A;
+    --dark-gray: #111111;
+}
+
+body {
+    background-color: var(--black);
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.main-title {
+    font-family: 'Cinzel', serif;
+    font-size: 4rem;
+    color: var(--gold);
+    text-align: center;
+    margin: 2rem 0;
+    background: linear-gradient(45deg, var(--gold-dark), var(--gold), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+}
+
+.main-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.oval-frame {
+    position: relative;
+    width: 400px;
+    height: 500px;
+    margin: 2rem;
+    border-radius: 200px/250px;
+    overflow: hidden;
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    transition: all 0.3s ease;
+}
+
+.oval-frame:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+}
+
+.oval-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dragon-ornament {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    pointer-events: none;
+}
+
+.dragon-top-right {
+    top: -20px;
+    right: -20px;
+    transform: rotate(45deg);
+}
+
+.dragon-bottom-left {
+    bottom: -20px;
+    left: -20px;
+    transform: rotate(225deg);
+}
+
+.curved-line {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    stroke: var(--gold);
+    stroke-width: 1;
+    fill: none;
+    opacity: 0.3;
+}
+
+.platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    position: relative;
+}
+
+.platform-card {
+    background: rgba(17, 17, 17, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.platform-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, 
+        rgba(212, 175, 55, 0.1) 0%,
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.platform-card:hover::before {
+    opacity: 1;
+}
+
+.upload-zone {
+    border: 2px dashed var(--gold);
+    border-radius: 30px;
+    padding: 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.upload-zone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center,
+        rgba(212, 175, 55, 0.1) 0%,
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.upload-zone:hover::before {
+    opacity: 1;
+}
+
+button {
+    background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+    border: none;
+    padding: 1rem 2rem;
+    color: var(--black);
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center,
+        rgba(255, 255, 255, 0.2) 0%,
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+button:hover::before {
+    opacity: 1;
+}

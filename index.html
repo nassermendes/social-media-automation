@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Social Media Automation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>The Many Lives Of The Real Mendes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/elegant.css" rel="stylesheet">
     <style>
         :root {
             --gold: #D4AF37;
@@ -16,7 +17,7 @@
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Cormorant Garamond', serif;
             margin: 0;
             padding: 0;
             background-color: var(--black);
@@ -47,13 +48,15 @@
             z-index: 1;
         }
 
-        .header {
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 4em;
+            margin-bottom: 20px;
             text-align: center;
-            margin-bottom: 60px;
             position: relative;
         }
 
-        .header::before {
+        .main-title::before {
             content: '';
             position: absolute;
             top: -20px;
@@ -66,13 +69,35 @@
             opacity: 0.1;
         }
 
-        .header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
+        .dragon-ornament {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+        }
+
+        .dragon-top-right {
+            top: 0;
+            right: 0;
+        }
+
+        .dragon-bottom-left {
+            bottom: 0;
+            left: 0;
+        }
+
+        .curved-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .curved-line path {
+            stroke: var(--gold);
+            stroke-width: 2;
+            fill: none;
         }
 
         .upload-card {
@@ -83,17 +108,6 @@
             position: relative;
             border: 1px solid rgba(212, 175, 55, 0.1);
             overflow: hidden;
-        }
-
-        .upload-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1));
-            transform: rotate(-45deg);
         }
 
         .upload-zone {
@@ -112,6 +126,12 @@
             background: rgba(212, 175, 55, 0.05);
         }
 
+        .upload-icon {
+            color: var(--gold);
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
         .platform-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -127,16 +147,13 @@
             border: 1px solid rgba(212, 175, 55, 0.1);
         }
 
-        .platform-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1));
-            transform: translate(50%, -50%);
-            border-radius: 0 0 0 100%;
+        .oval-frame {
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .platform-header {
@@ -225,134 +242,120 @@
             margin-top: 15px;
             font-size: 0.9em;
         }
-
-        .upload-icon {
-            color: var(--gold);
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .platform-card.uploading::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        #bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
     </style>
 </head>
 <body>
     <canvas id="bg"></canvas>
     
     <div class="container">
-        <div class="header">
-            <h1>Social Media Automation</h1>
-            <p>Streamline Your Content Distribution</p>
-        </div>
+        <h1 class="main-title">The Many Lives Of The Real Mendes</h1>
+        
+        <!-- Dragon ornaments -->
+        <img src="images/dragon-gold.png" class="dragon-ornament dragon-top-right" alt="">
+        <img src="images/dragon-gold.png" class="dragon-ornament dragon-bottom-left" alt="">
+        
+        <!-- Curved decorative lines -->
+        <svg class="curved-line" viewBox="0 0 1000 1000">
+            <path d="M100,100 Q500,200 900,100" />
+            <path d="M100,900 Q500,800 900,900" />
+        </svg>
 
         <div class="upload-card">
             <div class="upload-zone" onclick="document.getElementById('video-file').click()">
                 <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                <h3>Upload Your Content</h3>
-                <p>Drag and drop your video or click to browse</p>
+                <h3>Share Your Story</h3>
+                <p>Upload your content to all platforms</p>
                 <input type="file" id="video-file" accept="video/*" style="display: none" onchange="updateFileName()">
                 <div id="file-name"></div>
             </div>
             <button onclick="uploadVideo()" id="uploadButton">
-                <i class="fas fa-upload"></i> Begin Upload
+                <i class="fas fa-feather-alt"></i> Begin Your Journey
             </button>
         </div>
 
         <div class="platform-grid" id="progressSection" style="display: none">
-            <!-- Platform cards remain the same -->
-            <!-- YouTube Personal -->
+            <!-- Platform cards with oval frames -->
             <div class="platform-card" id="youtube-personal-status">
-                <div class="platform-header">
-                    <i class="fab fa-youtube platform-icon"></i>
-                    <h3>YouTube Personal</h3>
+                <div class="oval-frame">
+                    <div class="platform-header">
+                        <i class="fab fa-youtube platform-icon"></i>
+                        <h3>YouTube Personal</h3>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="youtube-personal-progress"></div>
+                    </div>
+                    <p class="status-message" id="youtube-personal-message">Ready to share</p>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="youtube-personal-progress"></div>
-                </div>
-                <p class="status-message" id="youtube-personal-message">Ready to upload</p>
             </div>
 
             <!-- YouTube Charity -->
             <div class="platform-card" id="youtube-charity-status">
-                <div class="platform-header">
-                    <i class="fab fa-youtube platform-icon"></i>
-                    <h3>YouTube Charity</h3>
+                <div class="oval-frame">
+                    <div class="platform-header">
+                        <i class="fab fa-youtube platform-icon"></i>
+                        <h3>YouTube Charity</h3>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="youtube-charity-progress"></div>
+                    </div>
+                    <p class="status-message" id="youtube-charity-message">Ready to share</p>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="youtube-charity-progress"></div>
-                </div>
-                <p class="status-message" id="youtube-charity-message">Ready to upload</p>
             </div>
 
             <!-- Instagram Personal -->
             <div class="platform-card" id="instagram-personal-status">
-                <div class="platform-header">
-                    <i class="fab fa-instagram platform-icon"></i>
-                    <h3>Instagram Personal</h3>
+                <div class="oval-frame">
+                    <div class="platform-header">
+                        <i class="fab fa-instagram platform-icon"></i>
+                        <h3>Instagram Personal</h3>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="instagram-personal-progress"></div>
+                    </div>
+                    <p class="status-message" id="instagram-personal-message">Ready to share</p>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="instagram-personal-progress"></div>
-                </div>
-                <p class="status-message" id="instagram-personal-message">Ready to upload</p>
             </div>
 
             <!-- Instagram Charity -->
             <div class="platform-card" id="instagram-charity-status">
-                <div class="platform-header">
-                    <i class="fab fa-instagram platform-icon"></i>
-                    <h3>Instagram Charity</h3>
+                <div class="oval-frame">
+                    <div class="platform-header">
+                        <i class="fab fa-instagram platform-icon"></i>
+                        <h3>Instagram Charity</h3>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="instagram-charity-progress"></div>
+                    </div>
+                    <p class="status-message" id="instagram-charity-message">Ready to share</p>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="instagram-charity-progress"></div>
-                </div>
-                <p class="status-message" id="instagram-charity-message">Ready to upload</p>
             </div>
 
             <!-- TikTok Personal -->
             <div class="platform-card" id="tiktok-personal-status">
-                <div class="platform-header">
-                    <i class="fab fa-tiktok platform-icon"></i>
-                    <h3>TikTok Personal</h3>
+                <div class="oval-frame">
+                    <div class="platform-header">
+                        <i class="fab fa-tiktok platform-icon"></i>
+                        <h3>TikTok Personal</h3>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="tiktok-personal-progress"></div>
+                    </div>
+                    <p class="status-message" id="tiktok-personal-message">Ready to share</p>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="tiktok-personal-progress"></div>
-                </div>
-                <p class="status-message" id="tiktok-personal-message">Ready to upload</p>
             </div>
 
             <!-- TikTok Charity -->
             <div class="platform-card" id="tiktok-charity-status">
-                <div class="platform-header">
-                    <i class="fab fa-tiktok platform-icon"></i>
-                    <h3>TikTok Charity</h3>
+                <div class="oval-frame">
+                    <div class="platform-header">
+                        <i class="fab fa-tiktok platform-icon"></i>
+                        <h3>TikTok Charity</h3>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="tiktok-charity-progress"></div>
+                    </div>
+                    <p class="status-message" id="tiktok-charity-message">Ready to share</p>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="tiktok-charity-progress"></div>
-                </div>
-                <p class="status-message" id="tiktok-charity-message">Ready to upload</p>
             </div>
         </div>
     </div>
@@ -361,7 +364,6 @@
     <script type="module" src="js/animations.js"></script>
     
     <script>
-        // JavaScript remains the same as before
         function updateFileName() {
             const fileInput = document.getElementById('video-file');
             const fileName = document.getElementById('file-name');
