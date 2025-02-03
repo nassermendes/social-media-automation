@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>The Many Lives Of The Real Mendes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="css/elegant.css" rel="stylesheet">
     <style>
@@ -17,7 +17,7 @@
         }
 
         body {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
             background-color: var(--black);
@@ -27,17 +27,84 @@
             overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
+        .background-elements {
             position: absolute;
-            top: -50%;
-            right: -20%;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 40%, transparent 50%);
+            height: 100%;
+            z-index: -1;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: var(--gold);
+            filter: blur(100px);
+            opacity: 0.1;
+        }
+
+        .circle-1 {
+            top: -20%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+        }
+
+        .circle-2 {
+            bottom: -20%;
+            left: -20%;
+            width: 300px;
+            height: 300px;
+        }
+
+        .gold-ball {
+            position: absolute;
+            border-radius: 50%;
+            background-color: var(--gold);
+            filter: blur(50px);
+            opacity: 0.2;
+        }
+
+        .ball-1 {
+            top: 20%;
+            right: 20%;
+            width: 50px;
+            height: 50px;
+        }
+
+        .ball-2 {
+            bottom: 20%;
+            left: 20%;
+            width: 70px;
+            height: 70px;
+        }
+
+        .ball-3 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+        }
+
+        .wave-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .wave-1 {
+            background-image: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 40%, transparent 50%);
             transform: rotate(-12deg);
-            pointer-events: none;
-            z-index: 0;
+        }
+
+        .wave-2 {
+            background-image: linear-gradient(45deg, transparent 50%, rgba(212, 175, 55, 0.1) 60%, transparent 70%);
+            transform: rotate(12deg);
         }
 
         .container {
@@ -48,56 +115,30 @@
             z-index: 1;
         }
 
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
         .main-title {
-            font-family: 'Cinzel', serif;
             font-size: 4em;
             margin-bottom: 20px;
             text-align: center;
             position: relative;
         }
 
-        .main-title::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(45deg, var(--gold), transparent);
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.1;
-        }
-
-        .dragon-ornament {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-        }
-
-        .dragon-top-right {
-            top: 0;
-            right: 0;
-        }
-
-        .dragon-bottom-left {
-            bottom: 0;
-            left: 0;
-        }
-
-        .curved-line {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-
-        .curved-line path {
-            stroke: var(--gold);
-            stroke-width: 2;
-            fill: none;
+        .subtitle {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            text-align: center;
         }
 
         .upload-card {
@@ -145,15 +186,6 @@
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .oval-frame {
-            border: 2px solid var(--gold);
-            border-radius: 50%;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         .platform-header {
@@ -245,30 +277,47 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="main-title">The Many Lives Of The Real Mendes</h1>
-        
-        <!-- Dragon ornaments -->
-        <img src="images/dragon-gold.svg" class="dragon-ornament dragon-top-right" alt="Golden dragon ornament">
-        <img src="images/dragon-gold.svg" class="dragon-ornament dragon-bottom-left" alt="Golden dragon ornament">
-        
-        <div class="upload-card">
-            <div class="upload-zone" onclick="document.getElementById('video-file').click()">
-                <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                <h3>Share Your Story</h3>
-                <p>Upload your content to all platforms</p>
-                <input type="file" id="video-file" accept="video/*" style="display: none" onchange="updateFileName()">
-                <div id="file-name"></div>
-            </div>
-            <button onclick="uploadVideo()" id="uploadButton">
-                <i class="fas fa-feather-alt"></i> Begin Your Journey
-            </button>
-        </div>
+    <!-- Background Elements -->
+    <div class="background-elements">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="gold-ball ball-1"></div>
+        <div class="gold-ball ball-2"></div>
+        <div class="gold-ball ball-3"></div>
+        <div class="wave-line wave-1"></div>
+        <div class="wave-line wave-2"></div>
+    </div>
 
-        <div class="platform-grid" id="progressSection" style="display: none">
-            <!-- Platform cards with oval frames -->
-            <div class="platform-card" id="youtube-personal-status">
-                <div class="oval-frame">
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">MENDES</div>
+            <nav>
+                <button style="width: auto; padding: 10px 20px; margin: 0;">Connect</button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <h1 class="main-title">The Many Lives<br>Of The Real Mendes</h1>
+            <p class="subtitle">Share your journey across multiple platforms with a single click. Your story, amplified.</p>
+
+            <div class="upload-card">
+                <div class="upload-zone" onclick="document.getElementById('video-file').click()">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <h3>Upload Your Content</h3>
+                    <p>Drag & drop your video or click to browse</p>
+                    <input type="file" id="video-file" accept="video/*" style="display: none" onchange="updateFileName()">
+                    <div id="file-name"></div>
+                </div>
+                <button onclick="uploadVideo()" id="uploadButton">
+                    Begin Upload
+                </button>
+            </div>
+
+            <div class="platform-grid" id="progressSection" style="display: none">
+                <!-- YouTube Personal -->
+                <div class="platform-card" id="youtube-personal-status">
                     <div class="platform-header">
                         <i class="fab fa-youtube platform-icon"></i>
                         <h3>YouTube Personal</h3>
@@ -276,13 +325,11 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="youtube-personal-progress"></div>
                     </div>
-                    <p class="status-message" id="youtube-personal-message">Ready to share</p>
+                    <p class="status-message" id="youtube-personal-message">Ready to upload</p>
                 </div>
-            </div>
 
-            <!-- YouTube Charity -->
-            <div class="platform-card" id="youtube-charity-status">
-                <div class="oval-frame">
+                <!-- YouTube Charity -->
+                <div class="platform-card" id="youtube-charity-status">
                     <div class="platform-header">
                         <i class="fab fa-youtube platform-icon"></i>
                         <h3>YouTube Charity</h3>
@@ -290,13 +337,11 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="youtube-charity-progress"></div>
                     </div>
-                    <p class="status-message" id="youtube-charity-message">Ready to share</p>
+                    <p class="status-message" id="youtube-charity-message">Ready to upload</p>
                 </div>
-            </div>
 
-            <!-- Instagram Personal -->
-            <div class="platform-card" id="instagram-personal-status">
-                <div class="oval-frame">
+                <!-- Instagram Personal -->
+                <div class="platform-card" id="instagram-personal-status">
                     <div class="platform-header">
                         <i class="fab fa-instagram platform-icon"></i>
                         <h3>Instagram Personal</h3>
@@ -304,13 +349,11 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="instagram-personal-progress"></div>
                     </div>
-                    <p class="status-message" id="instagram-personal-message">Ready to share</p>
+                    <p class="status-message" id="instagram-personal-message">Ready to upload</p>
                 </div>
-            </div>
 
-            <!-- Instagram Charity -->
-            <div class="platform-card" id="instagram-charity-status">
-                <div class="oval-frame">
+                <!-- Instagram Charity -->
+                <div class="platform-card" id="instagram-charity-status">
                     <div class="platform-header">
                         <i class="fab fa-instagram platform-icon"></i>
                         <h3>Instagram Charity</h3>
@@ -318,13 +361,11 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="instagram-charity-progress"></div>
                     </div>
-                    <p class="status-message" id="instagram-charity-message">Ready to share</p>
+                    <p class="status-message" id="instagram-charity-message">Ready to upload</p>
                 </div>
-            </div>
 
-            <!-- TikTok Personal -->
-            <div class="platform-card" id="tiktok-personal-status">
-                <div class="oval-frame">
+                <!-- TikTok Personal -->
+                <div class="platform-card" id="tiktok-personal-status">
                     <div class="platform-header">
                         <i class="fab fa-tiktok platform-icon"></i>
                         <h3>TikTok Personal</h3>
@@ -332,13 +373,11 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="tiktok-personal-progress"></div>
                     </div>
-                    <p class="status-message" id="tiktok-personal-message">Ready to share</p>
+                    <p class="status-message" id="tiktok-personal-message">Ready to upload</p>
                 </div>
-            </div>
 
-            <!-- TikTok Charity -->
-            <div class="platform-card" id="tiktok-charity-status">
-                <div class="oval-frame">
+                <!-- TikTok Charity -->
+                <div class="platform-card" id="tiktok-charity-status">
                     <div class="platform-header">
                         <i class="fab fa-tiktok platform-icon"></i>
                         <h3>TikTok Charity</h3>
@@ -346,10 +385,10 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="tiktok-charity-progress"></div>
                     </div>
-                    <p class="status-message" id="tiktok-charity-message">Ready to share</p>
+                    <p class="status-message" id="tiktok-charity-message">Ready to upload</p>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <script>
