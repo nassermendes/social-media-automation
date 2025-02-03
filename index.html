@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Social Media Automation</title>
@@ -41,6 +41,7 @@
 
         function loginWithTikTok() {
             const clientKey = "awdmgl4x0u4626up";
+            // Make sure this matches exactly what's in your TikTok Developer Portal
             const redirectUri = "https://nassermendes.github.io/social-media-automation/callback";
             const scope = "user.info.basic,video.upload";
             const state = generateState();
@@ -48,16 +49,14 @@
             // Store state in localStorage to verify on callback
             localStorage.setItem("tiktok_auth_state", state);
             
-            // Construct TikTok OAuth URL
-            const params = new URLSearchParams({
-                client_key: clientKey,
-                redirect_uri: redirectUri,
-                scope: scope,
-                response_type: "code",
-                state: state
-            });
+            // Manually construct the URL to ensure proper encoding
+            const authUrl = "https://www.tiktok.com/v2/auth/authorize/" +
+                "?client_key=" + encodeURIComponent(clientKey) +
+                "&scope=" + encodeURIComponent(scope) +
+                "&response_type=code" +
+                "&redirect_uri=" + encodeURIComponent(redirectUri) +
+                "&state=" + encodeURIComponent(state);
             
-            const authUrl = "https://www.tiktok.com/v2/auth/authorize/?" + params.toString();
             console.log("Auth URL:", authUrl);
             
             // Redirect to TikTok auth page
