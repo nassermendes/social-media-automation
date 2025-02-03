@@ -36,17 +36,19 @@
         function loginWithTikTok() {
             const clientKey = "awdmgl4x0u4626up";
             const redirectUri = "https://nassermendes.github.io/social-media-automation/callback";
-            const scope = "user.info.basic,video.upload";
+            // Use plus sign for scope separator as per TikTok docs
+            const scope = "user.info.basic+video.upload";
             const state = Math.random().toString(36).substring(7);
             
-            // Construct TikTok OAuth URL
-            const authUrl = "https://www.tiktok.com/auth/authorize/" +
-                "?client_key=" + clientKey +
-                "&scope=" + scope +
+            // Construct TikTok OAuth URL - using encodeURIComponent for all parameters
+            const authUrl = "https://www.tiktok.com/v2/auth/authorize" +
+                "?client_key=" + encodeURIComponent(clientKey) +
+                "&scope=" + encodeURIComponent(scope) +
                 "&response_type=code" +
                 "&redirect_uri=" + encodeURIComponent(redirectUri) +
-                "&state=" + state;
+                "&state=" + encodeURIComponent(state);
             
+            console.log("Auth URL:", authUrl);
             // Redirect to TikTok auth page
             window.location.href = authUrl;
         }
