@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Social Media Automation</title>
@@ -7,7 +7,7 @@
     <h1>Social Media Automation</h1>
     <p>A tool for automating social media content posting across multiple platforms.</p>
     
-    <!-- TikTok Login Button Container -->
+    <!-- TikTok Login Button -->
     <div id="tiktok-login-container">
         <button onclick="loginWithTikTok()">Login with TikTok</button>
     </div>
@@ -33,22 +33,33 @@
     </ul>
 
     <script>
+        function generateState() {
+            const array = new Uint8Array(16);
+            window.crypto.getRandomValues(array);
+            return Array.from(array, byte => byte.toString(16).padStart(2, "0")).join("");
+        }
+
         function loginWithTikTok() {
             const clientKey = "awdmgl4x0u4626up";
             const redirectUri = "https://nassermendes.github.io/social-media-automation/callback";
-            // Use plus sign for scope separator as per TikTok docs
-            const scope = "user.info.basic+video.upload";
-            const state = Math.random().toString(36).substring(7);
+            const scope = "user.info.basic,video.upload";
+            const state = generateState();
             
-            // Construct TikTok OAuth URL - using encodeURIComponent for all parameters
-            const authUrl = "https://www.tiktok.com/v2/auth/authorize" +
-                "?client_key=" + encodeURIComponent(clientKey) +
-                "&scope=" + encodeURIComponent(scope) +
-                "&response_type=code" +
-                "&redirect_uri=" + encodeURIComponent(redirectUri) +
-                "&state=" + encodeURIComponent(state);
+            // Store state in localStorage to verify on callback
+            localStorage.setItem("tiktok_auth_state", state);
             
+            // Construct TikTok OAuth URL
+            const params = new URLSearchParams({
+                client_key: clientKey,
+                redirect_uri: redirectUri,
+                scope: scope,
+                response_type: "code",
+                state: state
+            });
+            
+            const authUrl = "https://www.tiktok.com/v2/auth/authorize/?" + params.toString();
             console.log("Auth URL:", authUrl);
+            
             // Redirect to TikTok auth page
             window.location.href = authUrl;
         }
@@ -57,10 +68,22 @@
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get("code");
+            const state = urlParams.get("state");
+            
             if (code) {
+                // Verify state to prevent CSRF
+                const savedState = localStorage.getItem("tiktok_auth_state");
+                if (state !== savedState) {
+                    console.error("State mismatch - possible CSRF attack");
+                    document.body.innerHTML += "<p style=\"color: red;\">Error: Invalid state parameter</p>";
+                    return;
+                }
+                
                 console.log("Received auth code:", code);
                 // Store the auth code
                 localStorage.setItem("tiktok_auth_code", code);
+                // Clear the state
+                localStorage.removeItem("tiktok_auth_state");
                 // Show the upload form
                 document.getElementById("upload-form").style.display = "block";
                 // Hide the login button
