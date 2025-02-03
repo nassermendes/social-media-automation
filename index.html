@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Social Media Automation</title>
@@ -34,14 +34,11 @@
 
     <script>
         function generateState() {
-            const array = new Uint8Array(16);
-            window.crypto.getRandomValues(array);
-            return Array.from(array, byte => byte.toString(16).padStart(2, "0")).join("");
+            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         }
 
         function loginWithTikTok() {
             const clientKey = "awdmgl4x0u4626up";
-            // Make sure this matches exactly what's in your TikTok Developer Portal
             const redirectUri = "https://nassermendes.github.io/social-media-automation/callback";
             const scope = "user.info.basic,video.upload";
             const state = generateState();
@@ -49,15 +46,27 @@
             // Store state in localStorage to verify on callback
             localStorage.setItem("tiktok_auth_state", state);
             
-            // Manually construct the URL to ensure proper encoding
-            const authUrl = "https://www.tiktok.com/v2/auth/authorize/" +
-                "?client_key=" + encodeURIComponent(clientKey) +
-                "&scope=" + encodeURIComponent(scope) +
-                "&response_type=code" +
-                "&redirect_uri=" + encodeURIComponent(redirectUri) +
-                "&state=" + encodeURIComponent(state);
-            
+            // Build the authorization URL with proper encoding
+            const baseUrl = "https://www.tiktok.com/v2/auth/authorize/";
+            const params = {
+                client_key: clientKey,
+                redirect_uri: redirectUri,
+                scope: scope,
+                response_type: "code",
+                state: state
+            };
+
+            // Convert params to query string with proper encoding
+            const queryString = Object.keys(params)
+                .map(key => `${key}=${encodeURIComponent(params[key])}`)
+                .join("&");
+
+            const authUrl = `${baseUrl}?${queryString}`;
             console.log("Auth URL:", authUrl);
+            
+            // For debugging
+            const decodedUrl = decodeURIComponent(authUrl);
+            console.log("Decoded URL:", decodedUrl);
             
             // Redirect to TikTok auth page
             window.location.href = authUrl;
