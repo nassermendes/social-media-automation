@@ -2,13 +2,55 @@
 <html>
 <head>
     <title>Social Media Automation</title>
+    <!-- TikTok SDK -->
+    <script src="https://sf16-scmcdn-va.ibytedtos.com/goofy/tiktok/web/js/tiktok-auth.js"></script>
 </head>
 <body>
     <h1>Social Media Automation</h1>
     <p>A tool for automating social media content posting across multiple platforms.</p>
+    
+    <!-- TikTok Login Button -->
+    <div class="login-container">
+        <button id="tiktok-login-btn">Login with TikTok</button>
+    </div>
+    
+    <!-- Upload Form (initially hidden) -->
+    <div id="upload-form" style="display: none;">
+        <h2>Upload Video to TikTok</h2>
+        <form id="video-upload-form">
+            <input type="file" id="video-file" accept="video/*" required><br><br>
+            <input type="text" id="description" placeholder="Video description"><br><br>
+            <input type="text" id="hashtags" placeholder="Hashtags (comma separated)"><br><br>
+            <select id="visibility">
+                <option value="private">Only me</option>
+                <option value="public">Public</option>
+            </select><br><br>
+            <button type="submit">Upload Video</button>
+        </form>
+    </div>
+
     <ul>
         <li><a href="TERMS">Terms of Service</a></li>
         <li><a href="PRIVACY">Privacy Policy</a></li>
     </ul>
+
+    <script>
+        // Initialize TikTok SDK
+        const CLIENT_KEY = "awdmgl4x0u4626up";
+        
+        window.onload = function() {
+            // Initialize TikTok Login Kit
+            TikTokAuth.init({
+                client_key: CLIENT_KEY,
+                redirect_uri: "https://nassermendes.github.io/social-media-automation/callback",
+                scope: "user.info.basic,video.upload"
+            });
+            
+            // Add click handler for login button
+            document.getElementById("tiktok-login-btn").addEventListener("click", function() {
+                TikTokAuth.login();
+            });
+        };
+    </script>
 </body>
 </html>

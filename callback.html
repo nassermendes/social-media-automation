@@ -11,16 +11,16 @@
         window.onload = function() {
             // Get the code from URL parameters
             const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code');
+            const code = urlParams.get("code");
             
             if (code) {
                 // Store the auth code
-                localStorage.setItem('tiktok_auth_code', code);
+                localStorage.setItem("tiktok_auth_code", code);
                 
                 // Redirect back to main page
-                window.location.href = '/social-media-automation/';
+                window.location.href = "/social-media-automation/";
             } else {
-                document.body.innerHTML += '<p>Error: No authorization code received</p>';
+                document.body.innerHTML += "<p>Error: No authorization code received</p>";
             }
         };
     </script>
