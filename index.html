@@ -8,10 +8,50 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #f5f5f5;
         }
-        .login-container {
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .upload-section {
             text-align: center;
             margin: 40px 0;
+        }
+        .progress-section {
+            margin: 20px 0;
+            display: none;
+        }
+        .platform-status {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        .platform-status.uploading {
+            background: #fff3cd;
+        }
+        .platform-status.success {
+            background: #d4edda;
+        }
+        .platform-status.error {
+            background: #f8d7da;
+        }
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: #fe2c55;
+            width: 0%;
+            transition: width 0.3s ease;
         }
         button {
             background-color: #fe2c55;
@@ -21,145 +61,219 @@
             border-radius: 4px;
             font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         button:hover {
             background-color: #e62a4d;
         }
-        .mock-tiktok-auth {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
-        .mock-tiktok-window {
-            background: white;
-            width: 90%;
-            max-width: 400px;
-            margin: 40px auto;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
+        .platform-link {
+            color: #0366d6;
+            text-decoration: none;
         }
-        .tiktok-logo {
-            width: 120px;
-            margin-bottom: 20px;
+        .platform-link:hover {
+            text-decoration: underline;
         }
-        .permissions-list {
-            text-align: left;
+        input[type="file"] {
             margin: 20px 0;
-            padding: 0 20px;
         }
-        .permissions-list li {
-            margin: 10px 0;
-            list-style-type: none;
-        }
-        .permissions-list li:before {
-            content: "✓";
-            margin-right: 10px;
-            color: #fe2c55;
-        }
-        #upload-form {
-            margin-top: 40px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin: 8px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .success-message {
-            color: #4CAF50;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-            display: none;
+        .error-message {
+            color: #dc3545;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>Social Media Automation</h1>
-    <p>A tool for automating social media content posting across multiple platforms.</p>
-    
-    <!-- TikTok Login Button -->
-    <div class="login-container">
-        <button onclick="showMockAuth()">Login with TikTok</button>
-    </div>
+    <div class="container">
+        <h1>Social Media Automation</h1>
+        
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <input type="file" id="video-file" accept="video/*" required>
+            <button onclick="uploadVideo()" id="uploadButton">Upload Video</button>
+        </div>
 
-    <!-- Mock TikTok Auth Window -->
-    <div id="mockTikTokAuth" class="mock-tiktok-auth">
-        <div class="mock-tiktok-window">
-            <img src="https://sf16-scmcdn-sg.ibytedtos.com/goofy/tiktok/web/node/_next/static/images/logo-dark-e95da587b6efa1520dcd51122580b436.svg" 
-                 alt="TikTok" class="tiktok-logo">
-            <h2>Log in to TikTok</h2>
-            <p>Authorize Social Media Automation to:</p>
-            <ul class="permissions-list">
-                <li>Access your basic profile information</li>
-                <li>Upload videos to your account</li>
-            </ul>
-            <button onclick="mockAuthSuccess()">Authorize</button>
-            <button onclick="hideMockAuth()" style="background-color: #ddd; margin-left: 10px;">Cancel</button>
+        <!-- Progress Section -->
+        <div class="progress-section" id="progressSection">
+            <h2>Upload Progress</h2>
+            
+            <!-- YouTube Personal -->
+            <div class="platform-status" id="youtube-personal-status">
+                <h3>YouTube (Personal)</h3>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="youtube-personal-progress"></div>
+                </div>
+                <p id="youtube-personal-message">Waiting to start...</p>
+            </div>
+
+            <!-- YouTube Charity -->
+            <div class="platform-status" id="youtube-charity-status">
+                <h3>YouTube (Charity)</h3>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="youtube-charity-progress"></div>
+                </div>
+                <p id="youtube-charity-message">Waiting to start...</p>
+            </div>
+
+            <!-- Instagram Personal -->
+            <div class="platform-status" id="instagram-personal-status">
+                <h3>Instagram (Personal)</h3>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="instagram-personal-progress"></div>
+                </div>
+                <p id="instagram-personal-message">Waiting to start...</p>
+            </div>
+
+            <!-- Instagram Charity -->
+            <div class="platform-status" id="instagram-charity-status">
+                <h3>Instagram (Charity)</h3>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="instagram-charity-progress"></div>
+                </div>
+                <p id="instagram-charity-message">Waiting to start...</p>
+            </div>
+
+            <!-- TikTok Personal -->
+            <div class="platform-status" id="tiktok-personal-status">
+                <h3>TikTok (Personal)</h3>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="tiktok-personal-progress"></div>
+                </div>
+                <p id="tiktok-personal-message">Waiting to start...</p>
+            </div>
+
+            <!-- TikTok Charity -->
+            <div class="platform-status" id="tiktok-charity-status">
+                <h3>TikTok (Charity)</h3>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="tiktok-charity-progress"></div>
+                </div>
+                <p id="tiktok-charity-message">Waiting to start...</p>
+            </div>
         </div>
-    </div>
-    
-    <!-- Upload Form (initially hidden) -->
-    <div id="upload-form" style="display: none;">
-        <h2>Upload Video to TikTok</h2>
-        <div class="success-message" id="successMessage">
-            Successfully logged in with TikTok!
-        </div>
-        <form id="video-upload-form" onsubmit="mockVideoUpload(event)">
-            <input type="file" id="video-file" accept="video/*" required><br>
-            <input type="text" id="description" placeholder="Video description"><br>
-            <input type="text" id="hashtags" placeholder="Hashtags (comma separated)"><br>
-            <select id="visibility">
-                <option value="private">Only me</option>
-                <option value="public">Public</option>
-            </select><br>
-            <button type="submit">Upload Video</button>
-        </form>
     </div>
 
     <script>
-        function showMockAuth() {
-            document.getElementById("mockTikTokAuth").style.display = "block";
+        const platforms = {
+            'youtube_personal': 'YouTube (Personal)',
+            'youtube_charity': 'YouTube (Charity)',
+            'instagram_personal': 'Instagram (Personal)',
+            'instagram_charity': 'Instagram (Charity)',
+            'tiktok_personal': 'TikTok (Personal)',
+            'tiktok_charity': 'TikTok (Charity)'
+        };
+
+        function updateProgress(platform, progress, message, status = 'uploading', url = null) {
+            const platformId = platform.replace('_', '-');
+            const statusDiv = document.getElementById(`${platformId}-status`);
+            const progressBar = document.getElementById(`${platformId}-progress`);
+            const messageP = document.getElementById(`${platformId}-message`);
+
+            // Update progress bar
+            progressBar.style.width = `${progress}%`;
+
+            // Update message
+            if (url) {
+                messageP.innerHTML = `${message} <a href="${url}" target="_blank" class="platform-link">View Post</a>`;
+            } else {
+                messageP.textContent = message;
+            }
+
+            // Update status styling
+            statusDiv.className = `platform-status ${status}`;
         }
 
-        function hideMockAuth() {
-            document.getElementById("mockTikTokAuth").style.display = "none";
+        async function uploadVideo() {
+            const fileInput = document.getElementById('video-file');
+            const uploadButton = document.getElementById('uploadButton');
+            const progressSection = document.getElementById('progressSection');
+
+            if (!fileInput.files.length) {
+                alert('Please select a video file first.');
+                return;
+            }
+
+            // Show progress section and disable upload button
+            progressSection.style.display = 'block';
+            uploadButton.disabled = true;
+
+            const formData = new FormData();
+            formData.append('video', fileInput.files[0]);
+
+            try {
+                // First step: Process video
+                updateAllPlatforms(0, 'Processing video...');
+                const processResponse = await fetch('/process-video', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!processResponse.ok) {
+                    throw new Error('Video processing failed');
+                }
+
+                const processResult = await processResponse.json();
+                updateAllPlatforms(50, 'Video processed, uploading to platforms...');
+
+                // Second step: Post to all platforms
+                const content = {
+                    description: processResult.description,
+                    hashtags: processResult.hashtags,
+                    platforms: Object.keys(platforms)
+                };
+
+                const postResponse = await fetch('/approve-and-post', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        temp_path: processResult.temp_path,
+                        content: content
+                    })
+                });
+
+                if (!postResponse.ok) {
+                    throw new Error('Posting failed');
+                }
+
+                const results = await postResponse.json();
+
+                // Update status for each platform
+                Object.entries(results).forEach(([platform, result]) => {
+                    if (result.status === 'success') {
+                        updateProgress(
+                            platform,
+                            100,
+                            'Upload successful!',
+                            'success',
+                            result.url
+                        );
+                    } else {
+                        updateProgress(
+                            platform,
+                            100,
+                            `Error: ${result.error}`,
+                            'error'
+                        );
+                    }
+                });
+
+            } catch (error) {
+                console.error('Upload failed:', error);
+                updateAllPlatforms(0, `Error: ${error.message}`, 'error');
+            } finally {
+                uploadButton.disabled = false;
+            }
         }
 
-        function mockAuthSuccess() {
-            hideMockAuth();
-            document.getElementById("upload-form").style.display = "block";
-            document.querySelector(".login-container").style.display = "none";
-            
-            const successMessage = document.getElementById("successMessage");
-            successMessage.style.display = "block";
-            setTimeout(() => {
-                successMessage.style.display = "none";
-            }, 3000);
-        }
-
-        function mockVideoUpload(event) {
-            event.preventDefault();
-            const file = document.getElementById("video-file").files[0];
-            const description = document.getElementById("description").value;
-            const hashtags = document.getElementById("hashtags").value;
-            const visibility = document.getElementById("visibility").value;
-
-            // Simulate upload progress
-            alert("Video upload started! This would normally upload to TikTok.");
-            
-            // Reset form
-            event.target.reset();
+        function updateAllPlatforms(progress, message, status = 'uploading') {
+            Object.keys(platforms).forEach(platform => {
+                updateProgress(platform, progress, message, status);
+            });
         }
     </script>
 </body>
